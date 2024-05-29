@@ -1,6 +1,6 @@
 // controllers/BacController.js
 const Bac = require("../models/Bac");
-
+const { Op } = require("sequelize");
 exports.getAllBac = async (req, res) => {
   const { sort, filters, pagination } = req.query;
 

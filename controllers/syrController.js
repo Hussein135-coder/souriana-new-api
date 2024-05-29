@@ -1,6 +1,6 @@
 // controllers/SyrController.js
 const Syr = require("../models/Syr");
-
+const { Op } = require("sequelize");
 exports.getAllSyr = async (req, res) => {
   const { sort, filters, pagination } = req.query;
 
