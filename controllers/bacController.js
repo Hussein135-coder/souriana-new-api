@@ -22,7 +22,6 @@ exports.getAllBac = async (req, res) => {
   let offset = 0;
   let limit = 20000;
 
-  console.log(pagination);
   if (pagination) {
     if (pagination.start) {
       offset = parseInt(pagination.start, 10);
@@ -31,15 +30,20 @@ exports.getAllBac = async (req, res) => {
       limit = parseInt(pagination.limit, 10);
     }
   }
+
   let where = {};
   if (filters) {
     if (filters.date) {
-      if (filters.date.$eq) {
+      const dates = filters.date.$eq;
+      if (Array.isArray(dates)) {
         where.date = {
-          [Op.eq]: filters.date.$eq,
+          [Op.or]: dates.map((date) => ({ [Op.eq]: date })),
+        };
+      } else {
+        where.date = {
+          [Op.eq]: dates,
         };
       }
-      // Handle other date filters if necessary
     }
     // Add more filters as needed
   }

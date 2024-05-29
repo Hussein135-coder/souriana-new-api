@@ -34,12 +34,16 @@ exports.getAllSyr = async (req, res) => {
   let where = {};
   if (filters) {
     if (filters.date) {
-      if (filters.date.$eq) {
+      const dates = filters.date.$eq;
+      if (Array.isArray(dates)) {
         where.date = {
-          [Op.eq]: filters.date.$eq,
+          [Op.or]: dates.map((date) => ({ [Op.eq]: date })),
+        };
+      } else {
+        where.date = {
+          [Op.eq]: dates,
         };
       }
-      // Handle other date filters if necessary
     }
     // Add more filters as needed
   }
