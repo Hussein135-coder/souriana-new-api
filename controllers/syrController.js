@@ -2,7 +2,7 @@
 const Syr = require("../models/Syr");
 
 exports.getAllSyr = async (req, res) => {
-  const { sort, filters } = req.query;
+  const { sort, filters, pagination } = req.query;
 
   let order = [];
   if (sort) {
@@ -16,6 +16,18 @@ exports.getAllSyr = async (req, res) => {
     } else {
       const [key, direction] = sort.split(":");
       order.push([key, direction]);
+    }
+  }
+
+  let offset = 0;
+  let limit = 20000;
+
+  if (pagination) {
+    if (pagination.start) {
+      offset = parseInt(pagination.start, 10);
+    }
+    if (pagination.limit) {
+      limit = parseInt(pagination.limit, 10);
     }
   }
 
@@ -33,7 +45,7 @@ exports.getAllSyr = async (req, res) => {
   }
 
   try {
-    const statistics = await Syr.findAll({ order, where });
+    const statistics = await Syr.findAll({ order, where, limit, offset });
     res.json(statistics);
   } catch (error) {
     res.status(500).json({ error: error.message });

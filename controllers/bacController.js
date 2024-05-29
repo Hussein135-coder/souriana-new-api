@@ -2,7 +2,7 @@
 const Bac = require("../models/Bac");
 
 exports.getAllBac = async (req, res) => {
-  const { sort, filters } = req.query;
+  const { sort, filters, pagination } = req.query;
 
   let order = [];
   if (sort) {
@@ -19,6 +19,18 @@ exports.getAllBac = async (req, res) => {
     }
   }
 
+  let offset = 0;
+  let limit = 20000;
+
+  console.log(pagination);
+  if (pagination) {
+    if (pagination.start) {
+      offset = parseInt(pagination.start, 10);
+    }
+    if (pagination.limit) {
+      limit = parseInt(pagination.limit, 10);
+    }
+  }
   let where = {};
   if (filters) {
     if (filters.date) {
@@ -33,7 +45,7 @@ exports.getAllBac = async (req, res) => {
   }
 
   try {
-    const statistics = await Bac.findAll({ order, where });
+    const statistics = await Bac.findAll({ order, where, limit, offset });
     res.json(statistics);
   } catch (error) {
     res.status(500).json({ error: error.message });
