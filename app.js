@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const { connectDB } = require("./config/db");
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/users");
@@ -12,6 +13,12 @@ const app = express();
 
 // Connect to database
 connectDB();
+
+app.use(
+  cors({
+    origin: "https://souriana-react.vercel.app",
+  })
+);
 
 // Middleware
 app.use(express.json());
