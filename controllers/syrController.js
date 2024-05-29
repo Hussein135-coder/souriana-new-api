@@ -65,7 +65,7 @@ exports.getSyrById = async (req, res) => {
 };
 
 exports.createSyr = async (req, res) => {
-  const { name, likes, members, insta, date } = req.body;
+  const { name, likes, members, insta, date } = req.body.data;
   try {
     const newStatistic = await Syr.create({
       name,
@@ -81,7 +81,7 @@ exports.createSyr = async (req, res) => {
 };
 
 exports.updateSyr = async (req, res) => {
-  const { name, likes, members, insta, date } = req.body;
+  const { name, likes, members, insta, date } = req.body.data;
   try {
     const statistic = await Syr.findByPk(req.params.id);
     if (!statistic) {

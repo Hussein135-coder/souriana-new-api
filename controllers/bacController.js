@@ -65,7 +65,7 @@ exports.getBacById = async (req, res) => {
 };
 
 exports.createBac = async (req, res) => {
-  const { name, likes, members, insta, date } = req.body;
+  const { name, likes, members, insta, date } = req.body.data;
   try {
     const newStatistic = await Bac.create({
       name,
@@ -81,7 +81,7 @@ exports.createBac = async (req, res) => {
 };
 
 exports.updateBac = async (req, res) => {
-  const { name, likes, members, insta, date } = req.body;
+  const { name, likes, members, insta, date } = req.body.data;
   try {
     const statistic = await Bac.findByPk(req.params.id);
     if (!statistic) {

@@ -39,7 +39,7 @@ exports.getMoneyById = async (req, res) => {
 };
 
 exports.createMoney = async (req, res) => {
-  const { name, number, company, date, status, user } = req.body;
+  const { name, number, company, date, status, user } = req.body.data;
   try {
     const newMoney = await Money.create({
       name,
@@ -56,7 +56,7 @@ exports.createMoney = async (req, res) => {
 };
 
 exports.updateMoney = async (req, res) => {
-  const { name, number, company, date, status, user } = req.body;
+  const { name, number, company, date, status, user } = req.body.data;
   try {
     const money = await Money.findByPk(req.params.id);
     if (!money) {

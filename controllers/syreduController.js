@@ -69,7 +69,7 @@ exports.getSyreduById = async (req, res) => {
 };
 
 exports.createSyredu = async (req, res) => {
-  const { name, likes, members, insta, date } = req.body;
+  const { name, likes, members, insta, date } = req.body.data;
   try {
     const newStatistic = await Syredu.create({
       name,
@@ -85,7 +85,7 @@ exports.createSyredu = async (req, res) => {
 };
 
 exports.updateSyredu = async (req, res) => {
-  const { name, likes, members, insta, date } = req.body;
+  const { name, likes, members, insta, date } = req.body.data;
   try {
     const statistic = await Syredu.findByPk(req.params.id);
     if (!statistic) {
