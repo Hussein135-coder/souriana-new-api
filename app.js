@@ -16,7 +16,7 @@ connectDB();
 
 app.use(
   cors({
-    origin: "https://souriana-react.vercel.app",
+    origin: ["https://souriana-react.vercel.app","https://facebook-scrape-ui-rhdm.vercel.app","https://facebook-scrape-ui.vercel.app"],
   })
 );
 
