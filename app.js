@@ -15,9 +15,10 @@ const app = express();
 connectDB();
 
 app.use(
-  cors({
-    origin: ["https://souriana-react.vercel.app","https://facebook-scrape-ui-rhdm.vercel.app","https://facebook-scrape-ui.vercel.app"],
-  })
+  // cors({
+  //   origin: ["https://souriana-react.vercel.app","https://facebook-scrape-ui-rhdm.vercel.app","https://facebook-scrape-ui.vercel.app"],
+  // })
+  cors()
 );
 
 // Middleware
