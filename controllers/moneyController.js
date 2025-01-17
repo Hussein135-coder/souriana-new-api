@@ -93,8 +93,32 @@ exports.deleteMoney = async (req, res) => {
 
 exports.deleteAllMonies = async (req, res) => {
   try {
-    await Money.destroy({ where: {}, truncate: true });
-    res.json({ message: "All monies deleted" });
+    const allMoney = await Money.findAll();
+
+    if (allMoney.length === 0) {
+      return res.status(404).json({ message: "No money records found" });
+    }
+
+    const moneyData = allMoney.map((record) => ({
+      name: record.name,
+      number: record.number,
+      company: record.company,
+      date: record.date,
+      status: record.status,
+      user: record.user,
+    }));
+
+    const dates = allMoney.map((record) => record.date);
+    const firstDate = new Date(Math.min(...dates));
+    const lastDate = new Date(Math.max(...dates));
+
+    await MoneyArchive.create({
+      money: moneyData,
+      date: [firstDate, lastDate],
+    });
+
+    await Money.destroy({ where: {} });
+    res.json({ message: "Money data archived successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
