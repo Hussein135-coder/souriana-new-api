@@ -109,7 +109,12 @@ exports.deleteAllMonies = async (req, res) => {
       user: record.user,
     }));
 
-    const dates = allMoney.map((record) => record.date);
+    const dates = allMoney.map((record) => {
+      const [day, month, year] = record.date.split("-");
+      const formattedDate = `${year}-${month}-${day}`;
+      return new Date(formattedDate);
+    });
+
     const firstDate = new Date(Math.min(...dates));
     const lastDate = new Date(Math.max(...dates));
 
@@ -121,6 +126,7 @@ exports.deleteAllMonies = async (req, res) => {
     await Money.destroy({ where: {} });
     res.json({ message: "Money data archived successfully" });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: error.message });
   }
 };
