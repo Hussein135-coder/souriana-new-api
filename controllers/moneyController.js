@@ -110,13 +110,14 @@ exports.deleteAllMonies = async (req, res) => {
     }));
 
     const dates = allMoney.map((record) => {
-      const [day, month, year] = record.date.split("-");
-      const formattedDate = `${year}-${month}-${day}`;
-      return new Date(formattedDate);
+      return new Date(record.date);
     });
 
     const firstDate = new Date(Math.min(...dates));
     const lastDate = new Date(Math.max(...dates));
+
+    console.log("First Date:", firstDate);
+    console.log("Last Date:", lastDate);
 
     await MoneyArchive.create({
       money: moneyData,
